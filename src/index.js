@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => { moviesLoaded() })
 
 showMovie(1, movieContainer)
 
-    fetch('http://localhost:3000/films')
+    fetch('https://sammy-ck.github.io/db.json')
     .then(resp => resp.json())
     .then(data => {
         
-        data.forEach(movie => {
+        (data.films).forEach(movie => {
             const liMovie = document.createElement('li')
             liMovie.style.cursor = 'pointer'
 
@@ -82,11 +82,11 @@ updateBuyBtn (remainingTickets, availableTickets, buyTicketBtn)
 
 //update DOM and json server on available tickets upon buying
         buyTicketBtn.addEventListener('click',() => {
-            fetch(`http://localhost:3000/films/${data.id}`)
+            fetch(`https://sammy-ck.github.io/db.json`)
             .then(resp => resp.json())
-            .then(datam => {
-            
-            fetch(`http://localhost:3000/films/${data.id}`,{
+            .then(data => {
+            let datam = data.film[movie.id]
+            fetch(`https://sammy-ck.github.io/db.json/films/${data.id}`,{
             method : "PATCH",
             headers : {
             "Content-Type" : "application/json",
@@ -111,15 +111,15 @@ updateBuyBtn (remainingTickets, availableTickets, buyTicketBtn)
 
 //shows movie details on the DOM
 function showMovie(id, movieContainer) {
-    fetch(`http://localhost:3000/films/${id}`)
+    fetch(`https://sammy-ck.github.io/db.json`)
     .then(resp => resp.json())
-    .then(data => createMovieDetailCard(data, movieContainer))
+    .then(data => createMovieDetailCard(data.films[id], movieContainer))
     }
 
 
 //deletes a movie from the ul menu list and the server
 function deleteMovie (movieID, liMovie)  {
-    fetch(`http://localhost:3000/films/${movieID}`,{
+    fetch(`https://sammy-ck.github.io/db.json/films/${movieID}`,{
       method : "DELETE",
       headers : {
           "Content-Type" : "application/json",
